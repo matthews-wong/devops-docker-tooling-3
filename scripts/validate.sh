@@ -7,6 +7,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 echo "==> node --check src/server.js"
 node --check src/server.js
 
+echo "==> shellcheck scripts/validate.sh"
+shellcheck scripts/validate.sh
+
 echo "==> hadolint Dockerfile"
 hadolint Dockerfile
 
