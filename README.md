@@ -36,5 +36,19 @@ file before anyone tries to run it.
 ./scripts/validate.sh
 ```
 
+## Design decisions
+
+- **Zero runtime dependencies.** The service only needs `http.createServer`,
+  so there's nothing to audit, patch, or pin in `node_modules`. The
+  multi-stage Dockerfile still runs `npm install` in its own stage so the
+  pattern is there once real dependencies show up.
+- **`read_only: true` in Compose.** The app never writes to disk, so the
+  container filesystem doesn't need to be writable. If a future version
+  needs a scratch directory, mount a `tmpfs` for just that path rather than
+  dropping `read_only`.
+- **`wget --spider` for the healthcheck**, not `curl`, because Alpine ships
+  `wget` via BusyBox and adding `curl` would mean an extra package layer for
+  a single HTTP GET.
+
 More setup and validation notes will land in this README as the project
 grows.
