@@ -25,5 +25,16 @@ docker run --rm -p 8080:8080 healthcheck-api
 docker compose up --build
 ```
 
+## Validation
+
+`scripts/validate.sh` runs the checks that don't need a Docker daemon:
+Node syntax check, [hadolint](https://github.com/hadolint/hadolint) against
+the Dockerfile, and `docker compose config` to catch a malformed compose
+file before anyone tries to run it.
+
+```sh
+./scripts/validate.sh
+```
+
 More setup and validation notes will land in this README as the project
 grows.
