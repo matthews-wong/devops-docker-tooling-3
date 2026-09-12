@@ -36,6 +36,9 @@ file before anyone tries to run it.
 ./scripts/validate.sh
 ```
 
+CI runs the same script on every push and pull request (see
+`.github/workflows/validate.yml`).
+
 ## Design decisions
 
 - **Zero runtime dependencies.** The service only needs `http.createServer`,
