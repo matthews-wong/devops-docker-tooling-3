@@ -21,6 +21,18 @@ docker build -t healthcheck-api .
 docker run --rm -p 8080:8080 healthcheck-api
 ```
 
+The image builds for a single platform by default. To build for both
+`amd64` and `arm64` (e.g. before pushing to a registry others will pull
+from on either architecture), use buildx instead:
+
+```sh
+docker buildx build --platform linux/amd64,linux/arm64 -t healthcheck-api .
+```
+
+This requires a builder with the `docker-container` driver (the default
+`docker` driver only supports the host platform) — `docker buildx create
+--use` sets one up.
+
 ## Run it with Compose
 
 ```sh
@@ -61,6 +73,12 @@ CI runs the same script on every push and pull request (see
 - **`wget --spider` for the healthcheck**, not `curl`, because Alpine ships
   `wget` via BusyBox and adding `curl` would mean an extra package layer for
   a single HTTP GET.
+- **Single-platform build by default, buildx for multi-arch.** A plain
+  `docker build` only needs the host architecture, so it stays on the
+  default `docker` driver; the `--platform linux/amd64,linux/arm64` path
+  above is documented separately rather than made the default, since it
+  needs a `docker-container` builder and QEMU emulation that a local
+  single-arch build doesn't.
 
 More setup and validation notes will land in this README as the project
 grows.
