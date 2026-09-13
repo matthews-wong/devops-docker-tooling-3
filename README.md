@@ -50,8 +50,9 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
 `scripts/validate.sh` runs the checks that don't need a Docker daemon:
 Node syntax check, [hadolint](https://github.com/hadolint/hadolint) against
-the Dockerfile, and `docker compose config` to catch a malformed compose
-file before anyone tries to run it.
+the Dockerfile, `docker compose config` to catch a malformed compose file
+before anyone tries to run it, and a smoke test that starts the server and
+curls `/healthz` for a real response.
 
 ```sh
 ./scripts/validate.sh
