@@ -1,0 +1,11 @@
+services:
+  api:
+    build:
+      target: build
+    environment:
+      NODE_ENV: development
+    ports:
+      - "8080:8080"
+      - "9229:9229"
+    command: ["node", "--inspect=0.0.0.0:9229", "src/server.js"]
+    read_only: false

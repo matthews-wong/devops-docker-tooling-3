@@ -27,6 +27,13 @@ docker run --rm -p 8080:8080 healthcheck-api
 docker compose up --build
 ```
 
+For local development (live reload of the `build` stage, an inspector port,
+and a writable filesystem), layer the dev override on top:
+
+```sh
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
+```
+
 ## Validation
 
 `scripts/validate.sh` runs the checks that don't need a Docker daemon:
