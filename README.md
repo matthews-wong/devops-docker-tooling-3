@@ -1,5 +1,7 @@
 # healthcheck-api
 
+[![validate](https://github.com/matthews-wong/devops-docker-tooling-3/actions/workflows/validate.yml/badge.svg)](https://github.com/matthews-wong/devops-docker-tooling-3/actions/workflows/validate.yml)
+
 A minimal HTTP service with a `/healthz` endpoint, packaged as a hardened
 container image. No framework, no external dependencies — just Node's
 built-in `http` module — so the Dockerfile and compose setup are the whole
