@@ -16,4 +16,7 @@ hadolint Dockerfile
 echo "==> docker compose config"
 docker compose config >/dev/null
 
+echo "==> docker compose config (dev override)"
+docker compose -f docker-compose.yml -f docker-compose.dev.yml config >/dev/null
+
 echo "All checks passed."
