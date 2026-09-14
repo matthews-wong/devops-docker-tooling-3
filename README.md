@@ -46,6 +46,9 @@ and a writable filesystem), layer the dev override on top:
 docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ```
 
+`make up`, `make dev`, and `make down` wrap these two invocations plus
+`docker compose down`, if you'd rather not remember both file lists.
+
 ## Validation
 
 `scripts/validate.sh` runs the checks that don't need a Docker daemon:
@@ -65,12 +68,17 @@ CI runs the same script on every push and pull request (see
 
 - **Zero runtime dependencies.** The service only needs `http.createServer`,
   so there's nothing to audit, patch, or pin in `node_modules`. The
-  multi-stage Dockerfile still runs `npm install` in its own stage so the
+  multi-stage Dockerfile still runs `npm ci` in its own stage so the
   pattern is there once real dependencies show up.
 - **`read_only: true` in Compose.** The app never writes to disk, so the
   container filesystem doesn't need to be writable. If a future version
   needs a scratch directory, mount a `tmpfs` for just that path rather than
   dropping `read_only`.
+- **`init: true` in Compose.** Node running as PID 1 doesn't pick up the
+  kernel's default signal handling, so a plain `docker compose stop` can sit
+  out the full grace period before falling back to `SIGKILL`. Running an
+  init process as PID 1 instead fixes signal forwarding and reaps zombies,
+  for the cost of one boolean.
 - **`wget --spider` for the healthcheck**, not `curl`, because Alpine ships
   `wget` via BusyBox and adding `curl` would mean an extra package layer for
   a single HTTP GET.
