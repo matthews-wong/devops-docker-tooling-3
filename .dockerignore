@@ -1,5 +1,11 @@
 node_modules
 npm-debug.log*
 .env
+.env.example
 .git
+.github
+.editorconfig
+.nvmrc
 README.md
+SECURITY.md
+docker-compose*.yml
