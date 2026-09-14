@@ -6,6 +6,9 @@ RUN npm ci --omit=dev
 COPY src ./src
 
 FROM node:22.14.0-alpine@sha256:9bef0ef1e268f60627da9ba7d7605e8831d5b56ad07487d24d1aa386336d1944 AS runtime
+LABEL org.opencontainers.image.source="https://github.com/matthews-wong/devops-docker-tooling-3" \
+      org.opencontainers.image.description="Minimal HTTP service with a /healthz endpoint" \
+      org.opencontainers.image.licenses="MIT"
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /app ./
