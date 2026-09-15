@@ -1,0 +1,7 @@
+# CVE-2026-14456 (libcrypto3/libssl3, HIGH): DoS via unbounded memory growth
+# in OpenSSL's QUIC server. Fixed upstream in 3.5.8-r0, but that build hasn't
+# reached the official node:22.23.2-alpine image yet, so no digest we can pin
+# to carries the fix. This service never speaks QUIC/HTTP3 (plain
+# http.createServer over TCP), so it isn't reachable through this service.
+# Revisit on the next base-image bump.
+CVE-2026-14456
