@@ -52,16 +52,20 @@ docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 ## Validation
 
 `scripts/validate.sh` runs the checks that don't need a Docker daemon:
-Node syntax check, [hadolint](https://github.com/hadolint/hadolint) against
-the Dockerfile, `docker compose config` to catch a malformed compose file
-before anyone tries to run it, and a smoke test that starts the server and
-curls `/healthz` for a real response.
+Node syntax check, the `node:test` unit suite,
+[hadolint](https://github.com/hadolint/hadolint) against the Dockerfile,
+`docker compose config` to catch a malformed compose file before anyone
+tries to run it, and a smoke test that starts the server and curls
+`/healthz` for a real response.
 
 ```sh
 ./scripts/validate.sh
 ```
 
-CI runs the same script on every push and pull request (see
+CI runs the same script on every push and pull request, then goes a step
+further and actually builds the image and scans it with
+[Trivy](https://github.com/aquasecurity/trivy) for known CVEs — hadolint
+only looks at the Dockerfile source, not what ends up in the layers (see
 `.github/workflows/validate.yml`).
 
 ## Design decisions
