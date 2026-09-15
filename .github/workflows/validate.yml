@@ -39,3 +39,6 @@ jobs:
 
       - name: Run validation script
         run: ./scripts/validate.sh
+
+      - name: Build the image
+        run: docker build -t healthcheck-api:ci .
