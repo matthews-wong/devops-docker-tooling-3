@@ -25,4 +25,15 @@ server.listen(PORT, () => {
   console.log(`healthcheck-api listening on port ${PORT}`);
 });
 
+// SIGTERM has no default Node handler, so without this the process exits
+// immediately on `docker stop` / `compose down`, cutting off in-flight
+// requests instead of letting them finish.
+function shutdown(signal) {
+  console.log(`${signal} received, closing server`);
+  server.close(() => process.exit(0));
+}
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT', () => shutdown('SIGINT'));
+
 module.exports = server;
