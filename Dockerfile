@@ -12,6 +12,10 @@ LABEL org.opencontainers.image.source="https://github.com/matthews-wong/devops-d
 ENV NODE_ENV=production
 WORKDIR /app
 COPY --from=build /app ./
+# The image is never used to install or run npm packages at runtime, so drop
+# the bundled npm CLI — it pulls in far more third-party code (and CVEs)
+# than the service itself does.
+RUN rm -rf /usr/local/lib/node_modules/npm /usr/local/bin/npm /usr/local/bin/npx /usr/local/bin/corepack
 USER node
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
