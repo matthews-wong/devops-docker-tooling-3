@@ -5,7 +5,8 @@
   "description": "Minimal HTTP service with a /healthz endpoint, packaged as a hardened container image",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "node --test"
   },
   "engines": {
     "node": ">=22"
