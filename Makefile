@@ -1,4 +1,7 @@
-.PHONY: validate build up down dev
+.PHONY: test validate build up down dev
+
+test:
+	npm test
 
 validate:
 	./scripts/validate.sh
