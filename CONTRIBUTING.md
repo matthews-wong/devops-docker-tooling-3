@@ -8,9 +8,11 @@ Run the full validation suite locally:
 ./scripts/validate.sh
 ```
 
-It checks `src/server.js` syntax, shellchecks the scripts, smoke-tests the
-running server, hadolints the Dockerfile, and renders both compose files.
-CI runs the same script, so a clean local run means CI should be clean too.
+It checks `src/server.js` syntax, runs the `node:test` unit suite,
+shellchecks the scripts, smoke-tests the running server, hadolints the
+Dockerfile, and renders both compose files. CI runs the same script, plus
+two extra steps that need a Docker daemon this script doesn't assume you
+have: building the image and scanning it with Trivy.
 
 ## Commit style
 
