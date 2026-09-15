@@ -7,6 +7,9 @@ cd "$(dirname "${BASH_SOURCE[0]}")/.."
 echo "==> node --check src/server.js"
 node --check src/server.js
 
+echo "==> unit tests"
+npm test
+
 echo "==> shellcheck scripts/*.sh"
 shellcheck scripts/validate.sh scripts/smoke-test.sh
 
