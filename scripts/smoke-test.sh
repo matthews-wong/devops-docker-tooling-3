@@ -36,4 +36,20 @@ status=$(curl -s -o /dev/null -w '%{http_code}' "${BASE_URL}/not-a-real-route")
   exit 1
 }
 
-echo "smoke test passed: healthz=${response} unknown-route=${status}"
+kill -TERM "${server_pid}"
+
+stopped=""
+for _ in $(seq 1 20); do
+  if ! kill -0 "${server_pid}" 2>/dev/null; then
+    stopped=1
+    break
+  fi
+  sleep 0.25
+done
+
+[[ -n "${stopped}" ]] || {
+  echo "server did not exit within 5s of SIGTERM" >&2
+  exit 1
+}
+
+echo "smoke test passed: healthz=${response} unknown-route=${status} sigterm-shutdown=ok"
